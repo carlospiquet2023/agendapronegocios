@@ -164,8 +164,19 @@ Para dúvidas ou suporte, entre em contato através do email de suporte indicado
 
 ## 📄 Licença
 
-Este software é proprietário e protegido por direitos autorais. A compra garante licença de uso pessoal e comercial para um único usuário/empresa.
+Este software está licenciado sob a Licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
+
+Copyright (c) 2026 Carlos Antonio de Oliveira Piquet
 
 ---
 
-Desenvolvido com ❤️ para pequenos empreendedores
+## 👨‍💻 Desenvolvedor
+
+**Carlos Antonio de Oliveira Piquet**
+
+- 🌐 GitHub: [@carlospiquet2023](https://github.com/carlospiquet2023)
+- 📧 Contato: Através da plataforma de compra
+
+---
+
+Desenvolvido com ❤️ por **Carlos Antonio de Oliveira Piquet** para pequenos empreendedores brasileiros
