@@ -10,66 +10,16 @@
   "scope": "./",
   "icons": [
     {
-      "src": "assets/icons/icon-72.png",
-      "sizes": "72x72",
-      "type": "image/png",
-      "purpose": "maskable any"
+      "src": "assets/icons/icon-512.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
     },
     {
-      "src": "assets/icons/icon-96.png",
-      "sizes": "96x96",
-      "type": "image/png",
-      "purpose": "maskable any"
-    },
-    {
-      "src": "assets/icons/icon-128.png",
-      "sizes": "128x128",
-      "type": "image/png",
-      "purpose": "maskable any"
-    },
-    {
-      "src": "assets/icons/icon-144.png",
-      "sizes": "144x144",
-      "type": "image/png",
-      "purpose": "maskable any"
-    },
-    {
-      "src": "assets/icons/icon-152.png",
-      "sizes": "152x152",
-      "type": "image/png",
-      "purpose": "maskable any"
-    },
-    {
-      "src": "assets/icons/icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "maskable any"
-    },
-    {
-      "src": "assets/icons/icon-384.png",
-      "sizes": "384x384",
-      "type": "image/png",
-      "purpose": "maskable any"
-    },
-    {
-      "src": "assets/icons/icon-512.png",
+      "src": "assets/icons/icon-512.svg",
       "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "maskable any"
-    }
-  ],
-  "screenshots": [
-    {
-      "src": "assets/screenshots/desktop.png",
-      "sizes": "1280x720",
-      "type": "image/png",
-      "form_factor": "wide"
-    },
-    {
-      "src": "assets/screenshots/mobile.png",
-      "sizes": "390x844",
-      "type": "image/png",
-      "form_factor": "narrow"
+      "type": "image/svg+xml",
+      "purpose": "maskable"
     }
   ],
   "categories": ["business", "productivity"],
@@ -82,22 +32,19 @@
       "name": "Novo Agendamento",
       "short_name": "Agendar",
       "description": "Criar novo agendamento",
-      "url": "./index.html#agenda",
-      "icons": [{ "src": "assets/icons/shortcut-agenda.png", "sizes": "96x96" }]
+      "url": "./index.html#agenda"
     },
     {
       "name": "Novo Cliente",
       "short_name": "Cliente",
       "description": "Cadastrar novo cliente",
-      "url": "./index.html#clientes",
-      "icons": [{ "src": "assets/icons/shortcut-cliente.png", "sizes": "96x96" }]
+      "url": "./index.html#clientes"
     },
     {
       "name": "Financeiro",
       "short_name": "Finanças",
       "description": "Ver controle financeiro",
-      "url": "./index.html#financeiro",
-      "icons": [{ "src": "assets/icons/shortcut-financeiro.png", "sizes": "96x96" }]
+      "url": "./index.html#financeiro"
     }
   ]
 }

@@ -409,6 +409,15 @@ const Storage = {
         const config = this.getConfig();
         const newConfig = { ...config, ...dados };
         return this.saveConfig(newConfig);
+    },
+
+    // Aliases para compatibilidade
+    get(key, defaultValue = null) {
+        return this.load(key, defaultValue);
+    },
+
+    set(key, data) {
+        return this.save(key, data);
     }
 };
 
