@@ -1,0 +1,298 @@
+/**
+ * RESPONSIVIDADE - Agenda Pro Negócios
+ * Media queries e adaptações mobile
+ */
+
+/* ========================================
+   TABLET (até 1024px)
+======================================== */
+@media screen and (max-width: 1024px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .calendar-container {
+        grid-template-columns: 1fr;
+    }
+
+    .agenda-day-detail {
+        order: -1;
+    }
+
+    .header-search .input-search {
+        width: 200px;
+    }
+}
+
+/* ========================================
+   MOBILE (até 768px)
+======================================== */
+@media screen and (max-width: 768px) {
+    :root {
+        --sidebar-width: 280px;
+    }
+
+    /* Sidebar mobile */
+    .sidebar {
+        transform: translateX(-100%);
+    }
+
+    .sidebar.open {
+        transform: translateX(0);
+        box-shadow: var(--shadow-xl);
+    }
+
+    .sidebar-header .btn-icon {
+        display: flex;
+    }
+
+    /* Main content */
+    .main-content {
+        margin-left: 0;
+    }
+
+    /* Header */
+    .btn-menu-mobile {
+        display: flex;
+    }
+
+    .header-search {
+        display: none;
+    }
+
+    .btn-quick-add .text {
+        display: none;
+    }
+
+    /* Page header */
+    .page-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .page-header-left,
+    .page-header-right {
+        width: 100%;
+    }
+
+    .page-header-right {
+        justify-content: flex-end;
+    }
+
+    /* Stats grid */
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .stat-card {
+        padding: var(--spacing-md);
+    }
+
+    .stat-value {
+        font-size: var(--font-size-xl);
+    }
+
+    /* Calendar */
+    .calendar-day {
+        padding: var(--spacing-xs);
+    }
+
+    .day-number {
+        font-size: var(--font-size-xs);
+    }
+
+    /* Services grid */
+    .services-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* Reports grid */
+    .reports-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* Tables */
+    .data-table {
+        min-width: 500px;
+    }
+
+    /* Modal */
+    .modal-container {
+        max-width: 100%;
+        margin: var(--spacing-sm);
+        max-height: calc(100vh - var(--spacing-md));
+    }
+
+    /* Toast */
+    .toast-container {
+        left: var(--spacing-md);
+        right: var(--spacing-md);
+        bottom: var(--spacing-md);
+    }
+
+    .toast {
+        max-width: 100%;
+    }
+
+    /* Quick menu */
+    .quick-menu {
+        left: var(--spacing-md);
+        right: var(--spacing-md);
+        top: auto;
+        bottom: calc(var(--header-height) + var(--spacing-sm));
+    }
+
+    /* Settings */
+    .backup-item {
+        flex-direction: column;
+        text-align: center;
+        gap: var(--spacing-md);
+    }
+
+    .backup-item p {
+        margin-right: 0;
+    }
+}
+
+/* ========================================
+   MOBILE PEQUENO (até 480px)
+======================================== */
+@media screen and (max-width: 480px) {
+    /* Stats grid single column */
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* Page title */
+    .page-title {
+        font-size: var(--font-size-lg);
+    }
+
+    /* Cards */
+    .card-body {
+        padding: var(--spacing-md);
+    }
+
+    /* Form */
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+
+    /* Calendar nav */
+    .calendar-nav {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .calendar-month {
+        width: 100%;
+        order: -1;
+        margin-bottom: var(--spacing-sm);
+    }
+
+    /* List item */
+    .list-item {
+        flex-wrap: wrap;
+    }
+
+    .list-item-actions {
+        width: 100%;
+        justify-content: flex-end;
+        margin-top: var(--spacing-sm);
+    }
+
+    /* Service card */
+    .service-card-header {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .service-actions {
+        justify-content: center;
+    }
+}
+
+/* ========================================
+   OVERLAY PARA MOBILE (sidebar aberta)
+======================================== */
+.sidebar-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: calc(var(--z-fixed) - 1);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--transition-normal);
+}
+
+.sidebar-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* ========================================
+   IMPRESSÃO
+======================================== */
+@media print {
+    .sidebar,
+    .main-header,
+    .btn-quick-add,
+    .quick-menu,
+    .toast-container,
+    .modal-overlay {
+        display: none !important;
+    }
+
+    .main-content {
+        margin-left: 0;
+    }
+
+    .page {
+        display: block !important;
+    }
+
+    .card {
+        box-shadow: none;
+        border: 1px solid var(--color-gray-300);
+        page-break-inside: avoid;
+    }
+
+    body {
+        background-color: white;
+    }
+}
+
+/* ========================================
+   PREFERÊNCIA DE MOVIMENTO REDUZIDO
+======================================== */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* ========================================
+   MODO LANDSCAPE EM MOBILE
+======================================== */
+@media screen and (max-height: 500px) and (orientation: landscape) {
+    .main-header {
+        height: 50px;
+    }
+
+    .sidebar-header {
+        min-height: 50px;
+        padding: var(--spacing-sm) var(--spacing-md);
+    }
+
+    .modal-container {
+        max-height: 95vh;
+    }
+
+    .modal-body {
+        max-height: calc(95vh - 100px);
+    }
+}

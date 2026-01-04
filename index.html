@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Agenda Pro Negócios - Sistema completo de gestão para pequenos negócios">
+    <meta name="theme-color" content="#2563eb">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/png" href="assets/icons/icon-192.png">
+    <link rel="apple-touch-icon" href="assets/icons/icon-192.png">
+    
+    <!-- Estilos -->
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/themes.css">
+    
+    <title>Agenda Pro Negócios</title>
+</head>
+<body data-theme="dark">
+    <!-- TELA DE LOADING -->
+    <div id="app-loader" class="loader-overlay">
+        <div class="loader-content">
+            <div class="loader-spinner"></div>
+            <p>Carregando sistema...</p>
+        </div>
+    </div>
+
+    <!-- CONTAINER PRINCIPAL -->
+    <div id="app" class="app-container">
+        
+        <!-- SIDEBAR / MENU LATERAL -->
+        <aside id="sidebar" class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <span class="logo-icon">📅</span>
+                    <span class="logo-text">Agenda Pro</span>
+                </div>
+                <button id="btn-toggle-sidebar" class="btn-icon" aria-label="Fechar menu">
+                    <span class="icon">✕</span>
+                </button>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a href="#dashboard" class="nav-link active" data-page="dashboard">
+                            <span class="nav-icon">📊</span>
+                            <span class="nav-text">Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#clientes" class="nav-link" data-page="clientes">
+                            <span class="nav-icon">👥</span>
+                            <span class="nav-text">Clientes</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#agenda" class="nav-link" data-page="agenda">
+                            <span class="nav-icon">📅</span>
+                            <span class="nav-text">Agenda</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#servicos" class="nav-link" data-page="servicos">
+                            <span class="nav-icon">🔧</span>
+                            <span class="nav-text">Serviços</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#financeiro" class="nav-link" data-page="financeiro">
+                            <span class="nav-icon">💰</span>
+                            <span class="nav-text">Financeiro</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#relatorios" class="nav-link" data-page="relatorios">
+                            <span class="nav-icon">📈</span>
+                            <span class="nav-text">Relatórios</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#configuracoes" class="nav-link" data-page="configuracoes">
+                            <span class="nav-icon">⚙️</span>
+                            <span class="nav-text">Configurações</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <div class="business-info">
+                    <span class="business-name" id="business-name">Meu Negócio</span>
+                    <span class="business-type" id="business-type">Configure seu negócio</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- CONTEÚDO PRINCIPAL -->
+        <main id="main-content" class="main-content">
+            
+            <!-- HEADER -->
+            <header class="main-header">
+                <div class="header-left">
+                    <button id="btn-menu-mobile" class="btn-icon btn-menu-mobile" aria-label="Abrir menu">
+                        <span class="icon">☰</span>
+                    </button>
+                    <h1 id="page-title" class="page-title">Dashboard</h1>
+                </div>
+                <div class="header-right">
+                    <div class="header-search">
+                        <input type="search" id="global-search" placeholder="Buscar..." class="input-search">
+                    </div>
+                    <button id="btn-notifications" class="btn-icon btn-notifications" aria-label="Notificações">
+                        <span class="icon">🔔</span>
+                        <span class="notification-badge" id="notification-count">0</span>
+                    </button>
+                    <button id="btn-quick-add" class="btn-primary btn-quick-add">
+                        <span class="icon">+</span>
+                        <span class="text">Novo</span>
+                    </button>
+                </div>
+            </header>
+
+            <!-- ÁREA DE PÁGINAS -->
+            <div id="pages-container" class="pages-container">
+                
+                <!-- PÁGINA: DASHBOARD -->
+                <section id="page-dashboard" class="page active" data-page="dashboard">
+                    <div class="page-content">
+                        <!-- Cards de Resumo -->
+                        <div class="stats-grid">
+                            <div class="stat-card stat-primary">
+                                <div class="stat-icon">👥</div>
+                                <div class="stat-info">
+                                    <span class="stat-value" id="stat-clientes">0</span>
+                                    <span class="stat-label">Clientes</span>
+                                </div>
+                            </div>
+                            <div class="stat-card stat-success">
+                                <div class="stat-icon">📅</div>
+                                <div class="stat-info">
+                                    <span class="stat-value" id="stat-agendamentos-hoje">0</span>
+                                    <span class="stat-label">Hoje</span>
+                                </div>
+                            </div>
+                            <div class="stat-card stat-warning">
+                                <div class="stat-icon">⏰</div>
+                                <div class="stat-info">
+                                    <span class="stat-value" id="stat-pendentes">0</span>
+                                    <span class="stat-label">Pendentes</span>
+                                </div>
+                            </div>
+                            <div class="stat-card stat-info">
+                                <div class="stat-icon">💰</div>
+                                <div class="stat-info">
+                                    <span class="stat-value" id="stat-faturamento-mes">R$ 0</span>
+                                    <span class="stat-label">Este mês</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Seções do Dashboard -->
+                        <div class="dashboard-grid">
+                            <!-- Agendamentos de Hoje -->
+                            <div class="card hover-lift">
+                                <div class="card-header">
+                                    <h3 class="card-title">📅 Agendamentos de Hoje</h3>
+                                    <a href="#agenda" class="btn-link" data-page="agenda">Ver todos</a>
+                                </div>
+                                <div class="card-body">
+                                    <div id="lista-agendamentos-hoje" class="list-appointments stagger-list">
+                                        <p class="empty-state">Nenhum agendamento para hoje</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Gráfico de Faturamento -->
+                            <div class="card hover-lift">
+                                <div class="card-header">
+                                    <h3 class="card-title">📈 Faturamento (6 meses)</h3>
+                                </div>
+                                <div class="card-body">
+                                    <div id="chart-faturamento"></div>
+                                </div>
+                            </div>
+
+                            <!-- Lembretes Pendentes -->
+                            <div class="card hover-lift">
+                                <div class="card-header">
+                                    <h3 class="card-title">🔔 Lembretes Pendentes</h3>
+                                    <button class="btn-link" id="btn-marcar-todos-lidos">Marcar lidos</button>
+                                </div>
+                                <div class="card-body">
+                                    <div id="lista-lembretes" class="list-reminders stagger-list">
+                                        <p class="empty-state">Nenhum lembrete pendente</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Gráfico de Serviços -->
+                            <div class="card hover-lift">
+                                <div class="card-header">
+                                    <h3 class="card-title">🔧 Distribuição de Serviços</h3>
+                                </div>
+                                <div class="card-body">
+                                    <div id="chart-servicos"></div>
+                                </div>
+                            </div>
+
+                            <!-- Últimos Clientes -->
+                            <div class="card hover-lift">
+                                <div class="card-header">
+                                    <h3 class="card-title">👥 Últimos Clientes</h3>
+                                    <a href="#clientes" class="btn-link" data-page="clientes">Ver todos</a>
+                                </div>
+                                <div class="card-body">
+                                    <div id="lista-ultimos-clientes" class="list-clients stagger-list">
+                                        <p class="empty-state">Nenhum cliente cadastrado</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Serviços Mais Realizados -->
+                            <div class="card hover-lift">
+                                <div class="card-header">
+                                    <h3 class="card-title">🏆 Top Serviços</h3>
+                                </div>
+                                <div class="card-body">
+                                    <div id="lista-top-servicos" class="list-services stagger-list">
+                                        <p class="empty-state">Nenhum serviço registrado</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PÁGINA: CLIENTES -->
+                <section id="page-clientes" class="page" data-page="clientes">
+                    <div class="page-content">
+                        <div class="page-header">
+                            <div class="page-header-left">
+                                <input type="search" id="busca-cliente" placeholder="Buscar cliente..." class="input-search">
+                            </div>
+                            <div class="page-header-right">
+                                <button id="btn-novo-cliente" class="btn-primary">
+                                    <span class="icon">+</span> Novo Cliente
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-body">
+                                <div id="lista-clientes" class="data-table-container">
+                                    <table class="data-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Nome</th>
+                                                <th>Telefone</th>
+                                                <th>Email</th>
+                                                <th>Última Visita</th>
+                                                <th>Ações</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tbody-clientes">
+                                            <!-- Dados inseridos via JS -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PÁGINA: AGENDA -->
+                <section id="page-agenda" class="page" data-page="agenda">
+                    <div class="page-content">
+                        <div class="page-header">
+                            <div class="page-header-left">
+                                <div class="calendar-nav">
+                                    <button id="btn-mes-anterior" class="btn-icon">◀</button>
+                                    <span id="mes-atual" class="calendar-month">Janeiro 2026</span>
+                                    <button id="btn-mes-proximo" class="btn-icon">▶</button>
+                                </div>
+                            </div>
+                            <div class="page-header-right">
+                                <button id="btn-hoje" class="btn-secondary">Hoje</button>
+                                <button id="btn-novo-agendamento" class="btn-primary">
+                                    <span class="icon">+</span> Novo Agendamento
+                                </button>
+                            </div>
+                        </div>
+                        <div class="calendar-container">
+                            <div class="calendar-grid">
+                                <div class="calendar-header">
+                                    <span>Dom</span>
+                                    <span>Seg</span>
+                                    <span>Ter</span>
+                                    <span>Qua</span>
+                                    <span>Qui</span>
+                                    <span>Sex</span>
+                                    <span>Sáb</span>
+                                </div>
+                                <div id="calendar-days" class="calendar-days">
+                                    <!-- Dias inseridos via JS -->
+                                </div>
+                            </div>
+                            <div class="agenda-day-detail">
+                                <h3 id="agenda-dia-titulo">Selecione um dia</h3>
+                                <div id="agenda-dia-lista" class="agenda-day-list">
+                                    <p class="empty-state">Clique em um dia para ver os agendamentos</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PÁGINA: SERVIÇOS -->
+                <section id="page-servicos" class="page" data-page="servicos">
+                    <div class="page-content">
+                        <div class="page-header">
+                            <div class="page-header-left">
+                                <input type="search" id="busca-servico" placeholder="Buscar serviço..." class="input-search">
+                            </div>
+                            <div class="page-header-right">
+                                <button id="btn-novo-servico" class="btn-primary">
+                                    <span class="icon">+</span> Novo Serviço
+                                </button>
+                            </div>
+                        </div>
+                        <div id="grid-servicos" class="services-grid">
+                            <!-- Cards de serviços inseridos via JS -->
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PÁGINA: FINANCEIRO -->
+                <section id="page-financeiro" class="page" data-page="financeiro">
+                    <div class="page-content">
+                        <div class="stats-grid">
+                            <div class="stat-card stat-success">
+                                <div class="stat-icon">📈</div>
+                                <div class="stat-info">
+                                    <span class="stat-value" id="stat-receitas">R$ 0</span>
+                                    <span class="stat-label">Receitas</span>
+                                </div>
+                            </div>
+                            <div class="stat-card stat-danger">
+                                <div class="stat-icon">📉</div>
+                                <div class="stat-info">
+                                    <span class="stat-value" id="stat-despesas">R$ 0</span>
+                                    <span class="stat-label">Despesas</span>
+                                </div>
+                            </div>
+                            <div class="stat-card stat-primary">
+                                <div class="stat-icon">💵</div>
+                                <div class="stat-info">
+                                    <span class="stat-value" id="stat-saldo">R$ 0</span>
+                                    <span class="stat-label">Saldo</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="page-header">
+                            <div class="page-header-left">
+                                <select id="filtro-financeiro-mes" class="input-select" title="Filtrar por mês">
+                                    <option value="0">Janeiro</option>
+                                    <option value="1">Fevereiro</option>
+                                    <option value="2">Março</option>
+                                    <option value="3">Abril</option>
+                                    <option value="4">Maio</option>
+                                    <option value="5">Junho</option>
+                                    <option value="6">Julho</option>
+                                    <option value="7">Agosto</option>
+                                    <option value="8">Setembro</option>
+                                    <option value="9">Outubro</option>
+                                    <option value="10">Novembro</option>
+                                    <option value="11">Dezembro</option>
+                                </select>
+                            </div>
+                            <div class="page-header-right">
+                                <button id="btn-nova-transacao" class="btn-primary">
+                                    <span class="icon">+</span> Nova Transação
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-body">
+                                <div id="lista-transacoes" class="data-table-container">
+                                    <table class="data-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Data</th>
+                                                <th>Descrição</th>
+                                                <th>Categoria</th>
+                                                <th>Tipo</th>
+                                                <th>Valor</th>
+                                                <th>Ações</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tbody-transacoes">
+                                            <!-- Dados via JS -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PÁGINA: RELATÓRIOS -->
+                <section id="page-relatorios" class="page" data-page="relatorios">
+                    <div class="page-content">
+                        <div class="reports-grid">
+                            <div class="card report-card" data-report="clientes">
+                                <div class="card-body text-center">
+                                    <span class="report-icon">👥</span>
+                                    <h3>Relatório de Clientes</h3>
+                                    <p>Lista completa de clientes com histórico</p>
+                                    <button class="btn-primary btn-export" data-type="clientes">Exportar</button>
+                                </div>
+                            </div>
+                            <div class="card report-card" data-report="servicos">
+                                <div class="card-body text-center">
+                                    <span class="report-icon">🔧</span>
+                                    <h3>Relatório de Serviços</h3>
+                                    <p>Serviços realizados por período</p>
+                                    <button class="btn-primary btn-export" data-type="servicos">Exportar</button>
+                                </div>
+                            </div>
+                            <div class="card report-card" data-report="financeiro">
+                                <div class="card-body text-center">
+                                    <span class="report-icon">💰</span>
+                                    <h3>Relatório Financeiro</h3>
+                                    <p>Receitas, despesas e balanço</p>
+                                    <button class="btn-primary btn-export" data-type="financeiro">Exportar</button>
+                                </div>
+                            </div>
+                            <div class="card report-card" data-report="agendamentos">
+                                <div class="card-body text-center">
+                                    <span class="report-icon">📅</span>
+                                    <h3>Relatório de Agenda</h3>
+                                    <p>Histórico de agendamentos</p>
+                                    <button class="btn-primary btn-export" data-type="agendamentos">Exportar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PÁGINA: CONFIGURAÇÕES -->
+                <section id="page-configuracoes" class="page" data-page="configuracoes">
+                    <div class="page-content">
+                        <div class="settings-container">
+                            
+                            <!-- Aparência e Temas -->
+                            <div class="card hover-lift">
+                                <div class="card-header">
+                                    <h3 class="card-title">🎨 Aparência</h3>
+                                </div>
+                                <div class="card-body">
+                                    <div id="theme-selector-container"></div>
+                                    <div class="mt-16">
+                                        <button onclick="Onboarding.restart()" class="btn-secondary btn-sm">
+                                            🎓 Refazer Tour de Boas-vindas
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Sons e Feedback -->
+                            <div class="card hover-lift">
+                                <div class="card-header">
+                                    <h3 class="card-title">🔊 Sons e Feedback</h3>
+                                </div>
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <label class="toggle-switch-container">
+                                            <span>Efeitos Sonoros</span>
+                                            <label class="toggle-switch">
+                                                <input type="checkbox" id="toggle-sound" checked onchange="SoundFX.toggle()" title="Ativar/desativar efeitos sonoros" aria-label="Efeitos Sonoros">
+                                                <span class="toggle-slider"></span>
+                                            </label>
+                                        </label>
+                                        <small class="form-hint">Sons ao realizar ações</small>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="toggle-switch-container">
+                                            <span>Vibração (Mobile)</span>
+                                            <label class="toggle-switch">
+                                                <input type="checkbox" id="toggle-haptic" checked onchange="HapticFeedback.toggle()" title="Ativar/desativar vibração" aria-label="Feedback Háptico">
+                                                <span class="toggle-slider"></span>
+                                            </label>
+                                        </label>
+                                        <small class="form-hint">Feedback tátil em dispositivos móveis</small>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="volume-slider">Volume dos Sons</label>
+                                        <input type="range" id="volume-slider" min="0" max="100" value="30" 
+                                               class="slider" oninput="SoundFX.setVolume(this.value / 100)">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Dados do Negócio -->
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-title">🏪 Dados do Negócio</h3>
+                                </div>
+                                <div class="card-body">
+                                    <form id="form-config-negocio" class="form">
+                                        <div class="form-group">
+                                            <label for="config-nome-negocio">Nome do Negócio</label>
+                                            <input type="text" id="config-nome-negocio" class="input" placeholder="Ex: Oficina do João">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="config-tipo-negocio">Tipo de Negócio</label>
+                                            <select id="config-tipo-negocio" class="input-select">
+                                                <option value="oficina">Oficina Mecânica</option>
+                                                <option value="salao">Salão de Beleza</option>
+                                                <option value="barbearia">Barbearia</option>
+                                                <option value="autonomo">Autônomo</option>
+                                                <option value="loja">Loja</option>
+                                                <option value="outro">Outro</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="config-telefone">Telefone/WhatsApp</label>
+                                            <input type="tel" id="config-telefone" class="input" placeholder="(00) 00000-0000">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="config-endereco">Endereço</label>
+                                            <input type="text" id="config-endereco" class="input" placeholder="Rua, número, cidade">
+                                        </div>
+                                        <button type="submit" class="btn-primary">Salvar Configurações</button>
+                                    </form>
+                                </div>
+                            </div>
+
+                            <!-- Backup e Restauração -->
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-title">💾 Backup e Restauração</h3>
+                                </div>
+                                <div class="card-body">
+                                    <div class="backup-actions">
+                                        <div class="backup-item">
+                                            <p>Faça backup dos seus dados regularmente para não perder informações importantes.</p>
+                                            <button id="btn-fazer-backup" class="btn-success">📥 Fazer Backup</button>
+                                        </div>
+                                        <div class="backup-item">
+                                            <p>Restaure um backup anterior caso precise recuperar dados.</p>
+                                            <input type="file" id="input-restaurar-backup" accept=".json" class="sr-only" title="Selecionar arquivo de backup" aria-label="Selecionar arquivo de backup">
+                                            <button id="btn-restaurar-backup" class="btn-warning">📤 Restaurar Backup</button>
+                                        </div>
+                                        <div class="backup-item danger">
+                                            <p>⚠️ Cuidado: Esta ação apaga todos os dados do sistema.</p>
+                                            <button id="btn-limpar-dados" class="btn-danger">🗑️ Limpar Todos os Dados</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- WhatsApp -->
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-title">📱 Integração WhatsApp</h3>
+                                </div>
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <label>Mensagem padrão de lembrete:</label>
+                                        <textarea id="config-msg-lembrete" class="input textarea" rows="3" placeholder="Olá {nome}, lembrando do seu agendamento..."></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Mensagem padrão de confirmação:</label>
+                                        <textarea id="config-msg-confirmacao" class="input textarea" rows="3" placeholder="Olá {nome}, seu serviço foi confirmado..."></textarea>
+                                    </div>
+                                    <button id="btn-salvar-mensagens" class="btn-primary">Salvar Mensagens</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- MODAIS -->
+    <div id="modal-overlay" class="modal-overlay hidden">
+        <div id="modal-container" class="modal-container">
+            <div class="modal-header">
+                <h3 id="modal-title" class="modal-title">Título</h3>
+                <button id="btn-fechar-modal" class="btn-icon btn-close-modal">✕</button>
+            </div>
+            <div id="modal-body" class="modal-body">
+                <!-- Conteúdo dinâmico -->
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST / NOTIFICAÇÕES -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- MENU RÁPIDO (NOVO) -->
+    <div id="quick-menu" class="quick-menu hidden">
+        <button class="quick-menu-item" data-action="novo-cliente">
+            <span class="icon">👤</span> Novo Cliente
+        </button>
+        <button class="quick-menu-item" data-action="novo-agendamento">
+            <span class="icon">📅</span> Novo Agendamento
+        </button>
+        <button class="quick-menu-item" data-action="novo-servico">
+            <span class="icon">🔧</span> Novo Serviço
+        </button>
+        <button class="quick-menu-item" data-action="nova-transacao">
+            <span class="icon">💰</span> Nova Transação
+        </button>
+    </div>
+
+    <!-- SCRIPTS -->
+    <script src="js/utils/helpers.js"></script>
+    <script src="js/utils/storage.js"></script>
+    <script src="js/utils/validators.js"></script>
+    <script src="js/components/modal.js"></script>
+    <script src="js/components/toast.js"></script>
+    <script src="js/components/charts.js"></script>
+    <script src="js/components/theme-manager.js"></script>
+    <script src="js/components/onboarding.js"></script>
+    <script src="js/components/sound-fx.js"></script>
+    <script src="js/components/drag-drop.js"></script>
+    <script src="js/components/keyboard-shortcuts.js"></script>
+    <script src="js/components/confetti.js"></script>
+    <script src="js/modules/clientes.js"></script>
+    <script src="js/modules/agenda.js"></script>
+    <script src="js/modules/servicos.js"></script>
+    <script src="js/modules/financeiro.js"></script>
+    <script src="js/modules/relatorios.js"></script>
+    <script src="js/modules/configuracoes.js"></script>
+    <script src="js/modules/whatsapp.js"></script>
+    <script src="js/modules/dashboard.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
