@@ -505,7 +505,7 @@ const CaixaModule = {
             }
         });
 
-        Storage.save('produtos', produtos);
+        Storage.set('caixa_produtos', produtos);
     },
 
     /**
@@ -521,7 +521,7 @@ const CaixaModule = {
             }
         });
 
-        Storage.save('produtos', produtos);
+        Storage.set('caixa_produtos', produtos);
     },
 
     // ========================================
@@ -532,14 +532,22 @@ const CaixaModule = {
      * Obtém todos os produtos
      */
     getProdutos() {
-        return Storage.load('produtos', []);
+        return Storage.get('caixa_produtos') || [];
+    },
+
+    /**
+     * Busca produto por ID
+     */
+    getProdutoById(id) {
+        const produtos = this.getProdutos();
+        return produtos.find(p => p.id === id);
     },
 
     /**
      * Salva produtos
      */
     saveProdutos(produtos) {
-        return Storage.save('produtos', produtos);
+        return Storage.set('caixa_produtos', produtos);
     },
 
     /**
@@ -1104,10 +1112,12 @@ const CaixaAPI = {
     // Venda
     venda: {
         adicionarItem: (produtoId, qtd) => {
-            CaixaModule.novaVenda();
             const produto = CaixaModule.getProdutoById(produtoId);
             if (!produto) return { sucesso: false, erro: 'Produto não encontrado' };
-            CaixaModule.adicionarItem(produtoId, qtd);
+            if (!CaixaModule.vendaAtual) {
+                CaixaModule.novaVenda();
+            }
+            CaixaModule.adicionarItem(produto, qtd);
             return { sucesso: true };
         },
         removerItem: (produtoId) => {

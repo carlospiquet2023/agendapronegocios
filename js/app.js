@@ -110,8 +110,15 @@ const App = {
         // Links do menu
         document.querySelectorAll('.nav-link').forEach(link => {
             link.addEventListener('click', (e) => {
-                e.preventDefault();
                 const page = link.dataset.page;
+                
+                // Se for o caixa, permite navegação normal para caixa.html
+                if (page === 'caixa') {
+                    // Não previne o default - deixa o link ir para caixa.html
+                    return;
+                }
+                
+                e.preventDefault();
                 this.navigateTo(page);
             });
         });
@@ -119,12 +126,17 @@ const App = {
         // Navegação por hash
         window.addEventListener('hashchange', () => {
             const page = window.location.hash.slice(1) || 'dashboard';
+            // Ignora hash #caixa pois é uma página separada
+            if (page === 'caixa') return;
             this.navigateTo(page, false);
         });
 
         // Carrega página inicial
         const initialPage = window.location.hash.slice(1) || 'dashboard';
-        this.navigateTo(initialPage, false);
+        // Ignora hash #caixa pois é uma página separada
+        if (initialPage !== 'caixa') {
+            this.navigateTo(initialPage, false);
+        }
     },
 
     /**

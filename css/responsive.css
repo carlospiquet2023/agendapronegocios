@@ -296,3 +296,33 @@
         max-height: calc(95vh - 100px);
     }
 }
+
+/* ========================================
+   SAFE AREA PARA MOBILE (Android/iOS)
+   Aplicado apenas em dispositivos móveis
+======================================== */
+@supports (padding-top: env(safe-area-inset-top)) {
+    @media screen and (max-width: 768px) {
+        body {
+            padding-top: env(safe-area-inset-top);
+            padding-bottom: env(safe-area-inset-bottom);
+            padding-left: env(safe-area-inset-left);
+            padding-right: env(safe-area-inset-right);
+        }
+        
+        .app-container {
+            min-height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+        }
+        
+        /* Ajuste para barra de navegação Android */
+        .main-content {
+            padding-bottom: env(safe-area-inset-bottom, 20px);
+        }
+        
+        /* Sidebar mobile com safe area */
+        .sidebar {
+            padding-top: env(safe-area-inset-top);
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+    }
+}
