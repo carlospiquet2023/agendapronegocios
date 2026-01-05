@@ -10,13 +10,24 @@ const App = {
     /**
      * Inicializa a aplicação
      */
-    init() {
+    async init() {
         console.log('🚀 Iniciando Agenda Pro Negócios...');
 
-        // Verifica suporte a LocalStorage
-        if (!Helpers.supportsStorage()) {
-            alert('Seu navegador não suporta armazenamento local. O sistema não funcionará corretamente.');
-            return;
+        // Verifica se está no Electron (app desktop)
+        if (window.electronAPI && window.electronAPI.isElectron) {
+            console.log('🖥️ Modo Desktop (Electron) - Dados salvos no disco local');
+            // Inicializa storage do Electron (carrega dados do disco)
+            await Storage.init();
+            
+            // Configura eventos do menu Electron
+            this.setupElectronEvents();
+        } else {
+            console.log('🌐 Modo Web (Navegador) - Dados no localStorage');
+            // Verifica suporte a LocalStorage
+            if (!Helpers.supportsStorage()) {
+                alert('Seu navegador não suporta armazenamento local. O sistema não funcionará corretamente.');
+                return;
+            }
         }
 
         // Inicializa componentes
@@ -38,8 +49,10 @@ const App = {
         // Configura busca global
         this.setupGlobalSearch();
 
-        // Registra Service Worker para PWA
-        this.registerServiceWorker();
+        // Registra Service Worker apenas no modo web
+        if (!window.electronAPI) {
+            this.registerServiceWorker();
+        }
 
         // Verifica dados iniciais
         this.checkInitialData();
@@ -48,6 +61,31 @@ const App = {
         this.hideLoader();
 
         console.log('✅ Sistema iniciado com sucesso!');
+    },
+
+    /**
+     * Configura eventos específicos do Electron
+     */
+    setupElectronEvents() {
+        if (!window.electronAPI) return;
+
+        // Quando o menu "Exportar Backup" for clicado
+        window.electronAPI.onExportBackup(() => {
+            Storage.exportToFile();
+        });
+
+        // Quando o menu "Importar Backup" for clicado
+        window.electronAPI.onImportBackup((data) => {
+            const result = Storage.importAll(data);
+            if (result.success) {
+                Toast.show('Backup restaurado com sucesso!', 'success');
+                location.reload();
+            } else {
+                Toast.show(result.message, 'error');
+            }
+        });
+
+        console.log('✅ Eventos do Electron configurados');
     },
 
     /**

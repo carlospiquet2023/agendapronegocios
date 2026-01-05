@@ -1,0 +1,49 @@
+# Dependências
+node_modules/
+
+# Builds e Instaladores (arquivos grandes)
+dist/
+build/
+*.exe
+*.apk
+*.tar.gz
+*.dmg
+*.deb
+*.rpm
+*.AppImage
+
+# Android build files
+android/.gradle/
+android/app/build/
+android/build/
+android/capacitor-android/build/
+android/capacitor-cordova-android-plugins/build/
+android/.idea/
+android/*.iml
+android/local.properties
+
+# Capacitor www folder (gerado dinamicamente)
+www/
+
+# Keystore (IMPORTANTE: não commitar credenciais)
+*.jks
+*.keystore
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Temporários
+*.tmp
+*.temp
+.cache/

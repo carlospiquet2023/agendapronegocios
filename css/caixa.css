@@ -1,0 +1,1310 @@
+/**
+ * CAIXA REGISTRADORA - Estilos do PDV
+ * Sistema de Ponto de Venda Fullscreen
+ */
+
+/* ========================================
+   TELA PRINCIPAL DO CAIXA (FULLSCREEN)
+   ======================================== */
+
+.caixa-fullscreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: var(--bg-primary);
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* Header do Caixa */
+.caixa-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 1.5rem;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    color: white;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.caixa-header-left {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.caixa-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.caixa-logo i {
+    font-size: 1.5rem;
+}
+
+.caixa-info {
+    display: flex;
+    gap: 2rem;
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+.caixa-info-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.caixa-header-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.caixa-status {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 50px;
+    font-weight: 500;
+}
+
+.caixa-status.aberto {
+    background: rgba(34, 197, 94, 0.3);
+}
+
+.caixa-status.fechado {
+    background: rgba(239, 68, 68, 0.3);
+}
+
+.caixa-status-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #22c55e;
+    animation: pulse 2s infinite;
+}
+
+.caixa-status.fechado .caixa-status-dot {
+    background: #ef4444;
+    animation: none;
+}
+
+.btn-fechar-caixa-screen {
+    background: rgba(255, 255, 255, 0.15);
+    border: none;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.2s;
+}
+
+.btn-fechar-caixa-screen:hover {
+    background: rgba(255, 255, 255, 0.25);
+}
+
+/* ========================================
+   ÁREA PRINCIPAL DO PDV
+   ======================================== */
+
+.caixa-main {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    gap: 0;
+    overflow: hidden;
+}
+
+/* Área de Produtos/Busca */
+.caixa-produtos {
+    display: flex;
+    flex-direction: column;
+    background: var(--bg-secondary);
+    border-right: 1px solid var(--border-color);
+}
+
+/* Barra de Busca */
+.caixa-busca {
+    padding: 1rem 1.5rem;
+    background: var(--bg-primary);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.caixa-busca-input {
+    position: relative;
+    display: flex;
+    gap: 0.5rem;
+}
+
+.caixa-busca-input input {
+    flex: 1;
+    padding: 1rem 1rem 1rem 3rem;
+    font-size: 1.1rem;
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    transition: all 0.2s;
+}
+
+.caixa-busca-input input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+    outline: none;
+}
+
+.caixa-busca-input input::placeholder {
+    color: var(--text-muted);
+}
+
+.caixa-busca-input i {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    font-size: 1.2rem;
+}
+
+.caixa-busca-input .btn-codigo-barras {
+    padding: 1rem 1.5rem;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.caixa-busca-input .btn-codigo-barras:hover {
+    background: var(--primary-dark);
+}
+
+/* Categorias */
+.caixa-categorias {
+    display: flex;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    background: var(--bg-primary);
+    border-bottom: 1px solid var(--border-color);
+    overflow-x: auto;
+}
+
+.caixa-categoria {
+    padding: 0.5rem 1rem;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 50px;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s;
+}
+
+.caixa-categoria:hover,
+.caixa-categoria.active {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: white;
+}
+
+/* Grid de Produtos */
+.caixa-produtos-grid {
+    flex: 1;
+    padding: 1rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 1rem;
+    overflow-y: auto;
+    align-content: start;
+}
+
+.produto-card {
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    min-height: 140px;
+}
+
+.produto-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border-color: var(--primary);
+}
+
+.produto-card:active {
+    transform: scale(0.98);
+}
+
+.produto-card-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.produto-card-nome {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+    line-height: 1.3;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.produto-card-preco {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--success);
+}
+
+.produto-card-estoque {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    margin-top: 0.25rem;
+}
+
+.produto-card-estoque.baixo {
+    color: var(--warning);
+}
+
+.produto-card-estoque.zerado {
+    color: var(--danger);
+}
+
+/* ========================================
+   ÁREA DO CARRINHO/VENDA
+   ======================================== */
+
+.caixa-venda {
+    display: flex;
+    flex-direction: column;
+    background: var(--bg-primary);
+}
+
+/* Cabeçalho da Venda */
+.venda-header {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.venda-numero {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.venda-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.venda-actions button {
+    padding: 0.5rem;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.venda-actions button:hover {
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+}
+
+.venda-actions button.danger:hover {
+    background: var(--danger);
+    border-color: var(--danger);
+    color: white;
+}
+
+/* Lista de Itens */
+.venda-itens {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0.5rem;
+}
+
+.venda-item {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem;
+    background: var(--bg-secondary);
+    border-radius: 10px;
+    margin-bottom: 0.5rem;
+    gap: 0.75rem;
+    transition: all 0.2s;
+}
+
+.venda-item:hover {
+    background: var(--bg-tertiary);
+}
+
+.venda-item-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.venda-item-nome {
+    font-weight: 500;
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.venda-item-preco {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.venda-item-qtd {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.venda-item-qtd button {
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    background: var(--bg-primary);
+    color: var(--text-secondary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.venda-item-qtd button:hover {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: white;
+}
+
+.venda-item-qtd span {
+    min-width: 30px;
+    text-align: center;
+    font-weight: 600;
+}
+
+.venda-item-total {
+    font-weight: 700;
+    color: var(--success);
+    min-width: 80px;
+    text-align: right;
+}
+
+.venda-item-remove {
+    padding: 0.4rem;
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    border-radius: 6px;
+    transition: all 0.2s;
+}
+
+.venda-item-remove:hover {
+    background: var(--danger);
+    color: white;
+}
+
+/* Venda Vazia */
+.venda-vazia {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    padding: 2rem;
+}
+
+.venda-vazia i {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    opacity: 0.3;
+}
+
+.venda-vazia p {
+    font-size: 1rem;
+    text-align: center;
+}
+
+/* Totais */
+.venda-totais {
+    padding: 1rem 1.5rem;
+    background: var(--bg-secondary);
+    border-top: 1px solid var(--border-color);
+}
+
+.venda-total-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.venda-total-row.subtotal {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.venda-total-row.desconto {
+    color: var(--warning);
+    font-size: 0.9rem;
+}
+
+.venda-total-row.desconto.hidden {
+    display: none;
+}
+
+.venda-total-row.total {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    padding-top: 0.5rem;
+    border-top: 1px dashed var(--border-color);
+    margin-top: 0.5rem;
+}
+
+.venda-total-row.total .valor {
+    color: var(--success);
+    font-size: 1.75rem;
+}
+
+/* Botões de Pagamento */
+.venda-pagamento {
+    padding: 1rem 1.5rem;
+    background: var(--bg-primary);
+    border-top: 1px solid var(--border-color);
+}
+
+.pagamento-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.btn-pagamento {
+    padding: 1rem;
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    background: var(--bg-secondary);
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.2s;
+    color: var(--text-secondary);
+}
+
+.btn-pagamento:hover {
+    border-color: var(--primary);
+    background: rgba(99, 102, 241, 0.1);
+    color: var(--primary);
+}
+
+.btn-pagamento.selected {
+    border-color: var(--primary);
+    background: var(--primary);
+    color: white;
+}
+
+.btn-pagamento i {
+    font-size: 1.5rem;
+}
+
+.btn-pagamento span {
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.btn-finalizar-venda {
+    width: 100%;
+    padding: 1.25rem;
+    background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+    border: none;
+    border-radius: 12px;
+    color: white;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    transition: all 0.2s;
+    box-shadow: 0 4px 15px rgba(34, 197, 94, 0.3);
+}
+
+.btn-finalizar-venda:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(34, 197, 94, 0.4);
+}
+
+.btn-finalizar-venda:active {
+    transform: translateY(0);
+}
+
+.btn-finalizar-venda:disabled {
+    background: var(--bg-tertiary);
+    color: var(--text-muted);
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+}
+
+/* ========================================
+   MODAL DE PAGAMENTO
+   ======================================== */
+
+.modal-pagamento {
+    max-width: 500px;
+}
+
+.pagamento-info {
+    text-align: center;
+    padding: 1.5rem;
+    background: var(--bg-secondary);
+    border-radius: 12px;
+    margin-bottom: 1.5rem;
+}
+
+.pagamento-info .total-label {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-bottom: 0.5rem;
+}
+
+.pagamento-info .total-valor {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--success);
+}
+
+.pagamento-forma {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem;
+    background: rgba(99, 102, 241, 0.1);
+    border-radius: 10px;
+    margin-top: 1rem;
+}
+
+.pagamento-forma i {
+    font-size: 1.5rem;
+    color: var(--primary);
+}
+
+.pagamento-forma span {
+    font-weight: 600;
+    color: var(--primary);
+}
+
+.pagamento-input-group {
+    margin-bottom: 1.5rem;
+}
+
+.pagamento-input-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+.pagamento-input-group input {
+    width: 100%;
+    padding: 1rem;
+    font-size: 1.5rem;
+    font-weight: 700;
+    text-align: center;
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+}
+
+.pagamento-input-group input:focus {
+    border-color: var(--primary);
+    outline: none;
+}
+
+.pagamento-troco {
+    text-align: center;
+    padding: 1rem;
+    background: rgba(34, 197, 94, 0.1);
+    border-radius: 10px;
+    margin-bottom: 1.5rem;
+}
+
+.pagamento-troco .label {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+.pagamento-troco .valor {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--success);
+}
+
+.teclado-numerico {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+}
+
+.teclado-numerico button {
+    padding: 1.25rem;
+    font-size: 1.5rem;
+    font-weight: 600;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all 0.15s;
+}
+
+.teclado-numerico button:hover {
+    background: var(--bg-tertiary);
+}
+
+.teclado-numerico button:active {
+    transform: scale(0.95);
+}
+
+.teclado-numerico button.clear {
+    background: var(--danger);
+    color: white;
+    border-color: var(--danger);
+}
+
+.teclado-numerico button.backspace {
+    background: var(--warning);
+    color: white;
+    border-color: var(--warning);
+}
+
+/* ========================================
+   TELA DE BALANÇO
+   ======================================== */
+
+.balanco-container {
+    padding: 1.5rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.balanco-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.balanco-periodo {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.balanco-periodo button {
+    padding: 0.75rem 1.5rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background: var(--bg-secondary);
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.balanco-periodo button.active {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: white;
+}
+
+.balanco-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.balanco-card {
+    background: var(--bg-secondary);
+    border-radius: 16px;
+    padding: 1.5rem;
+    border: 1px solid var(--border-color);
+}
+
+.balanco-card-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.balanco-card-icon.vendas {
+    background: rgba(34, 197, 94, 0.15);
+    color: var(--success);
+}
+
+.balanco-card-icon.dinheiro {
+    background: rgba(34, 197, 94, 0.15);
+    color: #22c55e;
+}
+
+.balanco-card-icon.cartao {
+    background: rgba(99, 102, 241, 0.15);
+    color: var(--primary);
+}
+
+.balanco-card-icon.pix {
+    background: rgba(0, 188, 212, 0.15);
+    color: #00bcd4;
+}
+
+.balanco-card-label {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 0.25rem;
+}
+
+.balanco-card-valor {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.balanco-card-sub {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-top: 0.25rem;
+}
+
+/* Tabela de Vendas do Dia */
+.vendas-tabela {
+    background: var(--bg-secondary);
+    border-radius: 16px;
+    border: 1px solid var(--border-color);
+    overflow: hidden;
+}
+
+.vendas-tabela-header {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+    font-weight: 600;
+    color: var(--text-primary);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.vendas-tabela table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.vendas-tabela th,
+.vendas-tabela td {
+    padding: 1rem 1.5rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.vendas-tabela th {
+    background: var(--bg-tertiary);
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+}
+
+.vendas-tabela tr:hover {
+    background: var(--bg-tertiary);
+}
+
+.vendas-tabela .status {
+    padding: 0.25rem 0.75rem;
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.vendas-tabela .status.finalizada {
+    background: rgba(34, 197, 94, 0.15);
+    color: var(--success);
+}
+
+.vendas-tabela .status.cancelada {
+    background: rgba(239, 68, 68, 0.15);
+    color: var(--danger);
+}
+
+/* ========================================
+   MODAL DE PRODUTOS
+   ======================================== */
+
+.modal-produtos {
+    max-width: 900px;
+}
+
+.produtos-toolbar {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.produtos-toolbar .search-box {
+    flex: 1;
+    min-width: 250px;
+}
+
+.produtos-toolbar .btn-group {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.produtos-lista {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.produto-item {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    margin-bottom: 0.75rem;
+    gap: 1rem;
+    transition: all 0.2s;
+}
+
+.produto-item:hover {
+    border-color: var(--primary);
+    background: rgba(99, 102, 241, 0.05);
+}
+
+.produto-item-img {
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+    background: var(--bg-tertiary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    font-size: 1.5rem;
+}
+
+.produto-item-info {
+    flex: 1;
+}
+
+.produto-item-codigo {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+.produto-item-nome {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.produto-item-preco {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--success);
+}
+
+.produto-item-estoque {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    min-width: 80px;
+    text-align: center;
+}
+
+.produto-item-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+/* ========================================
+   MODAL ABERTURA/FECHAMENTO CAIXA
+   ======================================== */
+
+.modal-caixa {
+    max-width: 450px;
+}
+
+.caixa-form-group {
+    margin-bottom: 1.5rem;
+}
+
+.caixa-form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+.caixa-form-group input {
+    width: 100%;
+    padding: 1rem;
+    font-size: 1.25rem;
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    text-align: center;
+}
+
+.caixa-resumo {
+    background: var(--bg-secondary);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.caixa-resumo-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.caixa-resumo-item:last-child {
+    border-bottom: none;
+    font-weight: 700;
+    font-size: 1.1rem;
+    padding-top: 1rem;
+    margin-top: 0.5rem;
+    border-top: 2px solid var(--border-color);
+}
+
+.caixa-resumo-item.diferenca.positiva {
+    color: var(--success);
+}
+
+.caixa-resumo-item.diferenca.negativa {
+    color: var(--danger);
+}
+
+/* ========================================
+   IMPORTAÇÃO DE PRODUTOS
+   ======================================== */
+
+.import-area {
+    border: 2px dashed var(--border-color);
+    border-radius: 16px;
+    padding: 3rem;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    transition: all 0.2s;
+    cursor: pointer;
+}
+
+.import-area:hover,
+.import-area.dragover {
+    border-color: var(--primary);
+    background: rgba(99, 102, 241, 0.05);
+}
+
+.import-area i {
+    font-size: 3rem;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+}
+
+.import-area p {
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+}
+
+.import-area span {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.import-preview {
+    background: var(--bg-secondary);
+    border-radius: 12px;
+    padding: 1rem;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.import-preview table {
+    width: 100%;
+    font-size: 0.85rem;
+}
+
+.import-preview th,
+.import-preview td {
+    padding: 0.5rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+}
+
+/* ========================================
+   ATALHOS DE TECLADO
+   ======================================== */
+
+.atalhos-overlay {
+    position: fixed;
+    bottom: 1rem;
+    right: 1rem;
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    max-width: 400px;
+}
+
+.atalho-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    background: rgba(0, 0, 0, 0.7);
+    border-radius: 8px;
+    font-size: 0.75rem;
+    color: white;
+}
+
+.atalho-badge kbd {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-family: monospace;
+}
+
+/* ========================================
+   RESPONSIVIDADE
+   ======================================== */
+
+@media (max-width: 1024px) {
+    .caixa-main {
+        grid-template-columns: 1fr;
+    }
+
+    .caixa-venda {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 50vh;
+        border-top: 2px solid var(--border-color);
+        z-index: 100;
+        transform: translateY(calc(100% - 80px));
+        transition: transform 0.3s ease;
+    }
+
+    .caixa-venda.expanded {
+        transform: translateY(0);
+    }
+
+    .caixa-venda-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.75rem;
+        background: var(--primary);
+        color: white;
+        cursor: pointer;
+    }
+
+    .caixa-produtos-grid {
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+        padding-bottom: 100px;
+    }
+}
+
+@media (max-width: 768px) {
+    .caixa-header {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1rem;
+    }
+
+    .caixa-info {
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+
+    .balanco-cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .pagamento-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* ========================================
+   ANIMAÇÕES
+   ======================================== */
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes itemAdded {
+    0% {
+        transform: scale(1);
+        background: var(--bg-secondary);
+    }
+    50% {
+        transform: scale(1.02);
+        background: rgba(34, 197, 94, 0.2);
+    }
+    100% {
+        transform: scale(1);
+        background: var(--bg-secondary);
+    }
+}
+
+.venda-item.added {
+    animation: itemAdded 0.3s ease;
+}
+
+.produto-card.selected {
+    animation: pulse 0.3s ease;
+}
+
+/* Impressão */
+@media print {
+    .caixa-fullscreen {
+        position: relative;
+        height: auto;
+    }
+
+    .caixa-header,
+    .caixa-produtos,
+    .venda-pagamento,
+    .venda-actions {
+        display: none !important;
+    }
+
+    .caixa-venda {
+        width: 100%;
+        max-width: 80mm;
+        margin: 0 auto;
+    }
+}
+
+/* ========================================
+   MODAL VENDA CONCLUÍDA
+   ======================================== */
+
+.modal-venda-concluida .modal-header {
+    background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+    color: white;
+}
+
+.modal-venda-concluida .modal-close {
+    color: white;
+}
+
+.modal-venda-concluida .modal-body {
+    text-align: center;
+    padding: 2rem;
+}
+
+.venda-sucesso-icon {
+    font-size: 4rem;
+    color: #22c55e;
+    margin-bottom: 1rem;
+}
+
+.venda-sucesso-total {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.venda-sucesso-forma,
+.venda-sucesso-troco {
+    color: var(--text-muted);
+}
+
+.venda-sucesso-troco {
+    margin-top: 0.5rem;
+}
+
+.modal-venda-concluida .modal-footer {
+    justify-content: center;
+    gap: 1rem;
+}
+
+/* ========================================
+   MODAL BALANÇO
+   ======================================== */
+
+.modal-balanco .modal-content {
+    max-width: 600px;
+}
+
+.modal-balanco .balanco-periodo {
+    margin-bottom: 1.5rem;
+    display: flex;
+    gap: 0.5rem;
+}

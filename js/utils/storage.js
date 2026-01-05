@@ -1,11 +1,21 @@
 /**
  * STORAGE - Agenda Pro Negócios
- * Gerenciamento de dados com LocalStorage
+ * Gerenciamento de dados com Electron (disco local) ou LocalStorage (fallback)
+ * Os dados são salvos de forma persistente no disco da máquina!
  */
 
 const Storage = {
     // Prefixo para evitar conflitos
     PREFIX: 'agenda_pro_',
+
+    // Cache local para melhor performance
+    _cache: {},
+    _initialized: false,
+
+    // Verifica se está rodando no Electron
+    isElectron() {
+        return !!(window.electronAPI && window.electronAPI.isElectron);
+    },
 
     // Chaves do sistema
     KEYS: {
@@ -19,7 +29,27 @@ const Storage = {
     },
 
     /**
-     * Salva dados no localStorage
+     * Inicializa o storage - carrega dados do disco para cache
+     */
+    async init() {
+        if (this._initialized) return;
+        
+        if (this.isElectron()) {
+            try {
+                const result = await window.electronAPI.loadAllData();
+                if (result.success && result.data) {
+                    this._cache = result.data;
+                }
+                console.log('✅ Storage inicializado - Dados carregados do disco');
+            } catch (error) {
+                console.error('Erro ao inicializar storage:', error);
+            }
+        }
+        this._initialized = true;
+    },
+
+    /**
+     * Salva dados (disco no Electron, localStorage no navegador)
      * @param {string} key - Chave de armazenamento
      * @param {any} data - Dados a serem salvos
      * @returns {boolean} Sucesso da operação
@@ -27,6 +57,22 @@ const Storage = {
     save(key, data) {
         try {
             const fullKey = this.PREFIX + key;
+            
+            // Se estiver no Electron, salva no disco
+            if (this.isElectron()) {
+                // Atualiza cache local
+                this._cache[key] = data;
+                
+                // Salva no disco de forma assíncrona
+                window.electronAPI.saveData(key, data).then(result => {
+                    if (!result.success) {
+                        console.error('Erro ao salvar no disco:', result.error);
+                    }
+                });
+                return true;
+            }
+            
+            // Fallback para localStorage (navegador)
             const serialized = JSON.stringify({
                 data: data,
                 timestamp: Date.now(),
@@ -46,13 +92,22 @@ const Storage = {
     },
 
     /**
-     * Carrega dados do localStorage
+     * Carrega dados (disco no Electron, localStorage no navegador)
      * @param {string} key - Chave de armazenamento
      * @param {any} defaultValue - Valor padrão se não existir
      * @returns {any} Dados carregados
      */
     load(key, defaultValue = null) {
         try {
+            // Se estiver no Electron, usa cache (dados do disco)
+            if (this.isElectron()) {
+                if (this._cache.hasOwnProperty(key)) {
+                    return this._cache[key];
+                }
+                return defaultValue;
+            }
+            
+            // Fallback para localStorage (navegador)
             const fullKey = this.PREFIX + key;
             const serialized = localStorage.getItem(fullKey);
             
@@ -69,12 +124,18 @@ const Storage = {
     },
 
     /**
-     * Remove item do localStorage
+     * Remove item do armazenamento
      * @param {string} key - Chave a ser removida
      * @returns {boolean} Sucesso da operação
      */
     remove(key) {
         try {
+            if (this.isElectron()) {
+                delete this._cache[key];
+                window.electronAPI.removeData(key);
+                return true;
+            }
+            
             const fullKey = this.PREFIX + key;
             localStorage.removeItem(fullKey);
             return true;
@@ -90,6 +151,9 @@ const Storage = {
      * @returns {boolean}
      */
     exists(key) {
+        if (this.isElectron()) {
+            return this._cache.hasOwnProperty(key);
+        }
         const fullKey = this.PREFIX + key;
         return localStorage.getItem(fullKey) !== null;
     },
@@ -100,6 +164,12 @@ const Storage = {
      */
     clearAll() {
         try {
+            if (this.isElectron()) {
+                this._cache = {};
+                window.electronAPI.clearAllData();
+                return true;
+            }
+            
             const keys = Object.keys(localStorage);
             keys.forEach(key => {
                 if (key.startsWith(this.PREFIX)) {
@@ -122,6 +192,7 @@ const Storage = {
             version: '1.0',
             date: new Date().toISOString(),
             app: 'Agenda Pro Negócios',
+            storage: this.isElectron() ? 'electron-disk' : 'localStorage',
             data: {}
         };
 
@@ -130,6 +201,23 @@ const Storage = {
         });
 
         return JSON.stringify(backup, null, 2);
+    },
+
+    /**
+     * Exporta backup para arquivo (Electron)
+     */
+    async exportToFile() {
+        if (this.isElectron()) {
+            const jsonData = this.exportAll();
+            const result = await window.electronAPI.exportBackupFile(jsonData);
+            if (result.success) {
+                Toast.show('Backup exportado com sucesso!', 'success');
+            } else if (!result.canceled) {
+                Toast.show('Erro ao exportar backup', 'error');
+            }
+            return result;
+        }
+        return { success: false, message: 'Funcionalidade disponível apenas no app desktop' };
     },
 
     /**
@@ -171,7 +259,11 @@ const Storage = {
      * Obtém tamanho total usado pelo app
      * @returns {string} Tamanho formatado
      */
-    getSize() {
+    async getSize() {
+        if (this.isElectron()) {
+            return await window.electronAPI.getDataSize();
+        }
+        
         let total = 0;
         const keys = Object.keys(localStorage);
         
@@ -189,6 +281,28 @@ const Storage = {
         } else {
             return (total / (1024 * 1024)).toFixed(2) + ' MB';
         }
+    },
+
+    /**
+     * Obtém informações do armazenamento
+     */
+    async getStorageInfo() {
+        if (this.isElectron()) {
+            const path = await window.electronAPI.getDataPath();
+            const size = await window.electronAPI.getDataSize();
+            return {
+                type: 'Disco Local (Electron)',
+                path: path,
+                size: size,
+                safe: true
+            };
+        }
+        return {
+            type: 'Navegador (localStorage)',
+            path: 'Memória do navegador',
+            size: await this.getSize(),
+            safe: false
+        };
     },
 
     // ========================================
